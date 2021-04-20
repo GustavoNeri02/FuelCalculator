@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
   TextEditingController ethanolController = TextEditingController();
   TextEditingController gasolineController = TextEditingController();
 
+  String _tipChosen = "Irei rodar em:";
   String _info = "Complete os campos acima...";
   String _winner = "";
 
@@ -27,19 +28,17 @@ class _HomeState extends State<Home> {
   double _proportionRoadBravoEssence2013Dualogic = (7.5 / 10.9) - (1 / 100);
 
   bool _typeOfRoad;
-  bool _objStyle = true;
-
-  void changeStyle(){
-    setState(() {
-      _objStyle = false;
-    });
-  }
+  Color _iconColor = Colors.black;
+  Color _icon2Color = Colors.black;
 
   void _refresh() {
     ethanolController.text = "";
     gasolineController.text = "";
     _winner = "";
+    _iconColor = Colors.black;
+    _icon2Color = Colors.black;
     setState(() {
+      _tipChosen = "Irei rodar em:";
       _info = "Complete os campos acima...";
       _typeOfRoad = null;
     });
@@ -80,7 +79,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Color _iconColor = Colors.amber;
     return Scaffold(
       appBar: AppBar(
         title: Text("Calculadora de Combustível"),
@@ -106,11 +104,8 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  "bravo absolute 2013",
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.blueGrey,
-                  ),
+                  _tipChosen,
+                  style: TextStyle(color: Colors.blueGrey, fontSize: 25),
                   textAlign: TextAlign.center,
                 ),
                 Row(
@@ -119,19 +114,19 @@ class _HomeState extends State<Home> {
                     Column(
                       children: [
                         IconButton(
-                          icon:
-                          Icon(Icons.location_city),
+                          icon: Icon(
+                            Icons.location_city,
+                          ),
                           iconSize: 30,
-                          color: _objStyle? Colors.black
-                              : Colors.red,
+                          color: _iconColor,
                           onPressed: () {
                             //false == city
                             this._typeOfRoad = false;
                             setState(() {
-                                print("botão cliclado");
-
+                              _iconColor = Colors.red;
+                              _icon2Color = Colors.black;
+                              _tipChosen = "Irei rodar em Cidade";
                             });
-                            _iconColor = Colors.black;
                           },
                           //mensagem ao pressionar
                           tooltip: "Cidade",
@@ -140,19 +135,33 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(left: 10, right: 10)),
-                    Icon(Icons.directions_car,
-                        color: Colors.blueGrey, size: 120),
+                    Column(
+                      children: [
+                        Icon(Icons.directions_car,
+                            color: Colors.blueGrey, size: 120),
+                        Text(
+                          "bravo absolute 2013",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                     Padding(padding: EdgeInsets.only(left: 10, right: 10)),
                     Column(
                       children: [
                         IconButton(
                           icon: Icon(Icons.add_road),
                           iconSize: 30,
-                          color: _iconColor,
+                          color: _icon2Color,
                           onPressed: () {
                             this._typeOfRoad = true;
                             setState(() {
                               _iconColor = Colors.black;
+                              _icon2Color = Colors.red;
+                              _tipChosen = "Irei rodar em Estrada";
                             });
                           },
                           //mensagem ao pressionar
@@ -198,7 +207,7 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 50, bottom: 25),
+                  padding: EdgeInsets.only(top: 10, bottom: 25),
                   child: Container(
                     height: 50,
                     child: RaisedButton(
