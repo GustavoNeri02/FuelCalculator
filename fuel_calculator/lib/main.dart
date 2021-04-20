@@ -37,10 +37,12 @@ class _HomeState extends State<Home> {
     _winner = "";
     _iconColor = Colors.black;
     _icon2Color = Colors.black;
+    _typeOfRoad = null;
     setState(() {
+      _formKey = GlobalKey<FormState>();
       _tipChosen = "Irei rodar em:";
       _info = "Complete os campos acima...";
-      _typeOfRoad = null;
+
     });
   }
 
@@ -113,6 +115,8 @@ class _HomeState extends State<Home> {
                   children: [
                     Column(
                       children: [
+
+
                         IconButton(
                           icon: Icon(
                             Icons.location_city,
@@ -131,6 +135,8 @@ class _HomeState extends State<Home> {
                           //mensagem ao pressionar
                           tooltip: "Cidade",
                         ),
+
+
                         Text("Cidade"),
                       ],
                     ),
